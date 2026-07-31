@@ -17,6 +17,22 @@ The resulting file is easier to read, search, archive, process, or use with AI t
 * Recreates the output file on every run
 * Reports message counts and file size reduction
 
+## Use Case
+
+Imagine that you vaguely remember discussing a philosophical topic months or years ago, but you no longer remember when it happened or which exact words were used. In that situation, Telegram search may not help because you do not have a reliable keyword or date.
+
+You can export the chat history, convert it with this script, and get a compact plain-text version that contains only the written message content.
+
+This smaller file can then be reviewed with an AI assistant using a natural-language description of what you remember.
+
+For example:
+
+> Find the conversation where we discussed whether people can truly change their personality.
+
+Removing JSON structure, reactions, IDs, timestamps, sender metadata, and media information reduces the amount of unnecessary text that the AI has to process. More of its context window can then be used for the actual conversation, which makes long chat histories easier to analyze.
+
+After the relevant passage is found, you can use its exact phrases to search for the original message in Telegram.
+
 ## Exporting JSON from Telegram Desktop
 
 To export a chat as JSON:
@@ -70,17 +86,17 @@ I will share the result when I receive an answer.
 ## Console Report
 
 ```text
-Messages written: 4208
-Service entries skipped: 523
-Messages without text skipped: 40
-Input size: 4200.5 KB
-Output size: 310.2 KB
-Reduced by: 13.5x
+Messages written: 10695
+Service entries skipped: 2
+Messages without text skipped: 98
+Input size: 8915.0 KB
+Output size: 2184.7 KB
+Reduced by: 4.1x
 ```
 
-* **Service entries skipped** — events such as members joining, messages being pinned, or topics being created.
-* **Messages without text skipped** — photos, videos, voice messages, stickers, or files without captions.
-* **Reduced by** — the size ratio between the original JSON file and the generated text file.
+* **Service entries skipped:** events such as members joining, messages being pinned, or topics being created.
+* **Messages without text skipped:** photos, videos, voice messages, stickers, or files without captions.
+* **Reduced by:** the size ratio between the original JSON file and the generated text file.
 
 ## Privacy
 
