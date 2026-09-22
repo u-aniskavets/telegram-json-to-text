@@ -1,37 +1,24 @@
 # Telegram JSON to Text
 
-A small, dependency-free Python script that converts a Telegram Desktop JSON export into a compact plain-text file.
+A chat exported from Telegram usually contains around 75% unnecessary technical data, which makes AI analysis more expensive and less efficient.
 
-It keeps the written content of messages and removes metadata such as sender names, dates, message IDs, reactions, reply references, service events, and media information.
+This script removes that extra data and converts the chat into a compact text file that keeps the useful message content and daily dates.
 
-The resulting file is easier to read, search, archive, process, or use with AI tools while consuming less context.
+## Why
 
-## Features
+If you vaguely remember a conversation but do not know the exact date or keywords, you can convert the exported chat to `messages.txt` and give the smaller file to an AI assistant.
 
-* One message per line
-* Supports Telegram rich-text message structures
-* Normalizes spaces and line breaks
-* Skips service events and media-only messages
-* Works fully offline
-* Requires no Telegram login, API credentials, or external Python packages
-* Recreates the output file on every run
-* Reports message counts and file size reduction
-
-## Use Case
-
-Imagine that you vaguely remember discussing a philosophical topic months or years ago, but you no longer remember when it happened or which exact words were used. In that situation, Telegram search may not help because you do not have a reliable keyword or date.
-
-You can export the chat history, convert it with this script, and get a compact plain-text version that contains only the written message content.
-
-This smaller file can then be reviewed with an AI assistant using a natural-language description of what you remember.
-
-For example:
+Example:
 
 > Find the conversation where we discussed whether people can truly change their personality.
 
-Removing JSON structure, reactions, IDs, timestamps, sender metadata, and media information reduces the amount of unnecessary text that the AI has to process. More of its context window can then be used for the actual conversation, which makes long chat histories easier to analyze.
+## Features
 
-After the relevant passage is found, you can use its exact phrases to search for the original message in Telegram.
+* Keeps message text in chronological order
+* Writes each date once per day
+* Supports Telegram rich-text messages
+* Skips service events and messages without text
+* Shows message counts and file size reduction
 
 ## Exporting JSON from Telegram Desktop
 
@@ -39,18 +26,13 @@ To export a chat as JSON:
 
 1. Open the chat menu in Telegram Desktop.
 2. Select **Export chat history**.
-3. In the export window, find the line showing **Format: HTML** and the export path.
-4. Click the word **HTML**.
-5. Change it to **Machine-readable JSON**.
-6. Configure the remaining export options.
+3. In the export window, find **Format: HTML**.
+4. Click **HTML**.
+5. Select **Machine-readable JSON**.
+6. Choose the export options you need.
 7. Click **Export**.
 
-Telegram will create a single `result.json` file. An HTML export may instead contain multiple HTML files and supporting folders.
-
-## Requirements
-
-* Python 3.8 or newer
-* A Telegram Desktop export named `result.json`
+Telegram will create a `result.json` file.
 
 ## Usage
 
@@ -73,38 +55,27 @@ The script creates:
 messages.txt
 ```
 
-If `messages.txt` already exists, it is overwritten.
-
-## Example Output
+## Output
 
 ```text
+===== 24.07.2025 =====
 I sent the documents this morning.
 They confirmed that the application was received.
-I will share the result when I receive an answer.
+
+===== 25.07.2025 =====
+I received their reply today.
 ```
 
-## Console Report
+## Console Output
 
 ```text
-Messages written: 10695
-Service entries skipped: 2
-Messages without text skipped: 98
-Input size: 8915.0 KB
-Output size: 2184.7 KB
-Reduced by: 4.1x
+40232 - text messages saved to messages.txt
+834 - Telegram service events skipped (joins, pins, etc.)
+436 - messages with no text skipped (photos, files, stickers, etc.)
+29809.7 KB - original result.json size
+6534.4 KB - final messages.txt size
+4.6x - smaller than the original JSON
 ```
-
-* **Service entries skipped:** events such as members joining, messages being pinned, or topics being created.
-* **Messages without text skipped:** photos, videos, voice messages, stickers, or files without captions.
-* **Reduced by:** the size ratio between the original JSON file and the generated text file.
-
-## Privacy
-
-All processing happens locally.
-
-The script does not connect to Telegram, access your account, use the internet, or upload any files.
-
-Do not commit private `result.json` or `messages.txt` files to a public repository. They are excluded by the included `.gitignore`.
 
 ## License
 
